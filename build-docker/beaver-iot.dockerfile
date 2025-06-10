@@ -12,11 +12,13 @@ COPY nginx/templates /etc/nginx/templates
 
 ENV BEAVER_IOT_API_HOST=localhost
 ENV BEAVER_IOT_API_PORT=9200
-ENV BEAVER_IOT_WEBSOCKET_PORT=9201
+ENV MQTT_BROKER_WS_PATH=/mqtt
+ENV MQTT_BROKER_WS_PORT=8083
 
 EXPOSE 80
 EXPOSE 9200
-EXPOSE 9201
+EXPOSE 1883
+EXPOSE 8083
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
 CMD ["/bin/sh", "-c", "/envsubst-on-templates.sh && nginx && java -Dloader.path=${HOME}/beaver-iot/integrations ${JAVA_OPTS} -jar /application.jar ${SPRING_OPTS}"]
