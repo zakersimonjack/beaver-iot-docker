@@ -83,6 +83,7 @@ jobs:
       - name: Run Build Script
         working-directory: build-docker
         run: |
+          apt install wget
           chmod +x ./build.sh
           ./build.sh
         env:
