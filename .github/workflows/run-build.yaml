@@ -97,3 +97,4 @@ jobs:
           API_GIT_REPO_URL: ${{ github.event.inputs.api_git_repo_url }}
           API_GIT_BRANCH: ${{ github.event.inputs.api_git_branch }}
           API_MVN_PROFILE: ${{ github.event.inputs.api_mvn_profile }}
+          BLUEPRINT_DEFAULT_LOCAL_ZIP_URL: ${{ secrets.BLUEPRINT_DEFAULT_LOCAL_ZIP_URL }}

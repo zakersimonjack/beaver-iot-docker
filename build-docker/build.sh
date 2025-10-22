@@ -34,6 +34,7 @@ API_GIT_BRANCH=${API_GIT_BRANCH:-"origin/release"}
 API_MVN_PROFILE=${API_MVN_PROFILE:-"release"}
 API_MVN_SNAPSHOT_REPO_ID=${API_MVN_SNAPSHOT_REPO_ID:-"central-portal-snapshots"}
 API_MVN_SNAPSHOT_REPO_URL=${API_MVN_SNAPSHOT_REPO_URL:-"https://central.sonatype.com/repository/maven-snapshots/"}
+BLUEPRINT_DEFAULT_LOCAL_ZIP_URL=$BLUEPRINT_DEFAULT_LOCAL_ZIP_URL
 WEB_GIT_REPO_URL=${WEB_GIT_REPO_URL:-"https://github.com/milesight-iot/beaver-iot-web.git"}
 WEB_GIT_BRANCH=${WEB_GIT_BRANCH:-"origin/release"}
 BASE_API_IMAGE=${BASE_API_IMAGE:-"$DOCKER_REPO/beaver-iot-api:$PRODUCTION_TAG"}
@@ -93,6 +94,10 @@ function do_build() {
     args+=(--platform "${TARGET_PLATFORM}")
   fi
 
+  if [ -n "$BLUEPRINT_DEFAULT_LOCAL_ZIP_URL" ]; then
+    wget -O "$$WORK_DIR/default_local_blueprint.zip" "$BLUEPRINT_DEFAULT_LOCAL_ZIP_URL"
+  fi
+
   docker buildx build \
     --network=host \
     --build-arg "API_GIT_REPO_URL=${API_GIT_REPO_URL}" \
@@ -139,6 +144,7 @@ show_help() {
   echo "  DOCKER_BUILD_OPTION_REMOVE=[true|false]                                 Remove intermediate containers."
   echo "  DOCKER_BUILD_OPTION_NO_CACHE=[true|false]                               Do not use cache. Default set to 'true' to ensure latest source code is always pulled from git."
   echo "  API_GIT_REPO_URL=https://github.com/milesight-iot/beaver-iot.git        Git repository for Beaver IoT API."
+  echo "  BLUEPRINT_DEFAULT_LOCAL_ZIP_URL                                         Default zip file url for Beaver IoT Blueprint."
   echo "  API_GIT_BRANCH=origin/release                                           Git branch for Beaver IoT API."
   echo "  WEB_GIT_REPO_URL=https://github.com/milesight-iot/beaver-iot-web.git    Git repository for Beaver IoT Web."
   echo "  WEB_GIT_BRANCH=origin/release                                           Git branch for Beaver IoT Web."
